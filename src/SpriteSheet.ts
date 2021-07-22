@@ -1,0 +1,40 @@
+export class SpriteSheet {
+  tiles = new Map<string, HTMLCanvasElement>();
+
+  constructor(public image: HTMLImageElement, public tileWidth: number, public tileHeight: number) {}
+
+  define(name: string, x: number, y: number) {
+    const buffer = document.createElement('canvas');
+    buffer.width = this.tileWidth;
+    buffer.height = this.tileHeight;
+
+    buffer
+      .getContext('2d')
+      .drawImage(
+        this.image,
+        x * this.tileWidth,
+        y * this.tileHeight,
+        this.tileWidth,
+        this.tileHeight,
+        0,
+        0,
+        this.tileWidth,
+        this.tileHeight
+      );
+
+    this.tiles.set(name, buffer);
+  }
+
+  draw(name: string, context: CanvasRenderingContext2D, x: number, y: number) {
+    const buffer = this.tiles.get(name);
+    if (!buffer) {
+      throw new Error(`SpriteSheet.draw(): Sprite "${name}" not found`);
+    }
+
+    context.drawImage(buffer, x, y);
+  }
+
+  drawTile(name: string, context: CanvasRenderingContext2D, x: number, y: number) {
+    this.draw(name, context, x * this.tileWidth, y * this.tileHeight);
+  }
+}
