@@ -1,21 +1,17 @@
 import { Compositor } from './Compositor';
+import { createMario } from './entities';
 import { createBackgroundLayer } from './layers/background';
+import { createSpriteLayer } from './layers/sprites';
 import { loadLevel } from './loaders';
-import { loadBackgroundSprites, loadMarioSprite } from './loaders/sprite';
+import { loadBackgroundSprites } from './loaders/sprite';
 import { raise } from './raise';
-import { SpriteSheet } from './SpriteSheet';
-
-function createSpriteLayer(sprite: SpriteSheet, pos: { x: number; y: number }) {
-  return function drawSpriteLayer(context: CanvasRenderingContext2D) {
-    sprite.draw('idle', context, pos.x, pos.y);
-  };
-}
+import { Timer } from './Timer';
 
 async function main(canvas: HTMLCanvasElement) {
   const context = canvas.getContext('2d') || raise('Canvas not supported');
 
-  const [marioSprite, backgroundSprites, level] = await Promise.all([
-    loadMarioSprite(),
+  const [mario, backgroundSprites, level] = await Promise.all([
+    createMario(),
     loadBackgroundSprites(),
     loadLevel('1-1')
   ]);
@@ -26,25 +22,25 @@ async function main(canvas: HTMLCanvasElement) {
     level.backgrounds,
     backgroundSprites
   );
-  comp.layers.push(backgroundLayer);
+  // comp.layers.push(backgroundLayer);
 
-  const pos = {
-    x: 0,
-    y: 0
-  };
-
-  const spriteLayer = createSpriteLayer(marioSprite, pos);
+  const spriteLayer = createSpriteLayer(mario);
   comp.layers.push(spriteLayer);
 
-  function update() {
+  const gravity = 30;
+  mario.pos.set(64, 180);
+  mario.vel.set(200, -600);
+
+  const timer = new Timer();
+
+  timer.update = function update(deltaTime) {
     comp.draw(context);
-    pos.x += 2;
-    pos.y += 2;
+    mario.update(deltaTime);
+    console.log(mario.pos);
+    mario.vel.y += gravity;
+  };
 
-    requestAnimationFrame(update);
-  }
-
-  update();
+  timer.start();
 }
 
 const canvas = document.getElementById('screen');
