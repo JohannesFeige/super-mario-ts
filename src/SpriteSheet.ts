@@ -1,26 +1,20 @@
 export class SpriteSheet {
   tiles = new Map<string, HTMLCanvasElement>();
 
-  constructor(public image: HTMLImageElement, public tileWidth: number, public tileHeight: number) {}
+  constructor(
+    public image: HTMLImageElement,
+    public tileWidth: number,
+    public tileHeight: number
+  ) {}
 
-  define(name: string, x: number, y: number) {
+  define(name: string, x: number, y: number, width: number, height: number) {
     const buffer = document.createElement('canvas');
-    buffer.width = this.tileWidth;
-    buffer.height = this.tileHeight;
+    buffer.width = width;
+    buffer.height = height;
 
     buffer
       .getContext('2d')
-      .drawImage(
-        this.image,
-        x * this.tileWidth,
-        y * this.tileHeight,
-        this.tileWidth,
-        this.tileHeight,
-        0,
-        0,
-        this.tileWidth,
-        this.tileHeight
-      );
+      .drawImage(this.image, x, y, width, height, 0, 0, width, height);
 
     this.tiles.set(name, buffer);
   }
@@ -34,7 +28,22 @@ export class SpriteSheet {
     context.drawImage(buffer, x, y);
   }
 
-  drawTile(name: string, context: CanvasRenderingContext2D, x: number, y: number) {
+  defineTile(name: string, x: number, y: number) {
+    this.define(
+      name,
+      x * this.tileWidth,
+      y * this.tileHeight,
+      this.tileWidth,
+      this.tileHeight
+    );
+  }
+
+  drawTile(
+    name: string,
+    context: CanvasRenderingContext2D,
+    x: number,
+    y: number
+  ) {
     this.draw(name, context, x * this.tileWidth, y * this.tileHeight);
   }
 }

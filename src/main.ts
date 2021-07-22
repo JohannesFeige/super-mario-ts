@@ -1,31 +1,50 @@
-import { loadImage, loadLevel } from './loaders';
+import { Compositor } from './Compositor';
+import { createBackgroundLayer } from './layers/background';
+import { loadLevel } from './loaders';
+import { loadBackgroundSprites, loadMarioSprite } from './loaders/sprite';
 import { raise } from './raise';
 import { SpriteSheet } from './SpriteSheet';
-import { BackgroundSpec } from './types';
 
-function drawBackground(background: BackgroundSpec, context: CanvasRenderingContext2D, sprites: SpriteSheet) {
-  background.ranges.forEach(([x1, x2, y1, y2]) => {
-    for (let x = x1; x < x2; ++x) {
-      for (let y = y1; y < y2; ++y) {
-        sprites.drawTile(background.tile, context, x, y);
-      }
-    }
-  });
+function createSpriteLayer(sprite: SpriteSheet, pos: { x: number; y: number }) {
+  return function drawSpriteLayer(context: CanvasRenderingContext2D) {
+    sprite.draw('idle', context, pos.x, pos.y);
+  };
 }
 
 async function main(canvas: HTMLCanvasElement) {
   const context = canvas.getContext('2d') || raise('Canvas not supported');
 
-  const image = await loadImage('/images/tiles.png');
-  const sprites = new SpriteSheet(image, 16, 16);
-  sprites.define('ground', 0, 0);
-  sprites.define('sky', 3, 23);
+  const [marioSprite, backgroundSprites, level] = await Promise.all([
+    loadMarioSprite(),
+    loadBackgroundSprites(),
+    loadLevel('1-1')
+  ]);
 
-  const level = await loadLevel('1-1');
+  const comp = new Compositor();
 
-  level.backgrounds.forEach(background => {
-    drawBackground(background, context, sprites);
-  });
+  const backgroundLayer = createBackgroundLayer(
+    level.backgrounds,
+    backgroundSprites
+  );
+  comp.layers.push(backgroundLayer);
+
+  const pos = {
+    x: 0,
+    y: 0
+  };
+
+  const spriteLayer = createSpriteLayer(marioSprite, pos);
+  comp.layers.push(spriteLayer);
+
+  function update() {
+    comp.draw(context);
+    pos.x += 2;
+    pos.y += 2;
+
+    requestAnimationFrame(update);
+  }
+
+  update();
 }
 
 const canvas = document.getElementById('screen');
