@@ -1,35 +1,18 @@
-import { Compositor } from './Compositor';
 import { createMario } from './entities';
 import { Keyboard } from './Keyboard';
-import { createBackgroundLayer } from './layers/background';
-import { createSpriteLayer } from './layers/sprites';
 import { loadLevel } from './loaders';
-import { loadBackgroundSprites } from './loaders/sprite';
 import { raise } from './raise';
 import { Timer } from './Timer';
 
 async function main(canvas: HTMLCanvasElement) {
   const context = canvas.getContext('2d') || raise('Canvas not supported');
 
-  const [mario, backgroundSprites, level] = await Promise.all([
-    createMario(),
-    loadBackgroundSprites(),
-    loadLevel('1-1')
-  ]);
-
-  const comp = new Compositor();
-
-  const backgroundLayer = createBackgroundLayer(
-    level.backgrounds,
-    backgroundSprites
-  );
-  comp.layers.push(backgroundLayer);
-
-  const spriteLayer = createSpriteLayer(mario);
-  comp.layers.push(spriteLayer);
+  const [mario, level] = await Promise.all([createMario(), loadLevel('1-1')]);
 
   const gravity = 2000;
   mario.pos.set(64, 180);
+
+  level.entities.add(mario);
 
   const SPACE = 'Space';
   const input = new Keyboard();
@@ -43,12 +26,20 @@ async function main(canvas: HTMLCanvasElement) {
   });
 
   input.listenTo(window);
+  ['mousedown', 'mousemove'].forEach((eventName) => {
+    canvas.addEventListener(eventName, (event) => {
+      if (event.buttons === 1) {
+        mario.vel.set(0, 0);
+        mario.pos.set(event.offsetX, event.offsetY);
+      }
+    });
+  });
 
   const timer = new Timer();
 
   timer.update = function update(deltaTime) {
-    mario.update(deltaTime);
-    comp.draw(context);
+    level.update(deltaTime);
+    level.comp.draw(context);
     mario.vel.y += gravity * deltaTime;
   };
 

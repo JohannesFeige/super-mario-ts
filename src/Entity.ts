@@ -4,6 +4,7 @@ import { Trait } from './Trait';
 export class Entity {
   pos = new Vec2();
   vel = new Vec2();
+  size = new Vec2();
 
   traits = [] as Trait[];
 

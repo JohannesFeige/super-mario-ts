@@ -1,7 +1,7 @@
 import { Entity } from '../Entity';
 
-export function createSpriteLayer(entity: Entity) {
+export function createSpriteLayer(entities: Set<Entity>) {
   return function drawSpriteLayer(context: CanvasRenderingContext2D) {
-    entity.draw(context);
+    entities.forEach((entity) => entity.draw(context));
   };
 }
