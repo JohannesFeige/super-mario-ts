@@ -1,5 +1,5 @@
 import { createMario } from './entities';
-import { Keyboard } from './Keyboard';
+import { setupKeyboard } from './input';
 import { loadLevel } from './loaders';
 import { raise } from './raise';
 import { Timer } from './Timer';
@@ -9,21 +9,11 @@ async function main(canvas: HTMLCanvasElement) {
 
   const [mario, level] = await Promise.all([createMario(), loadLevel('1-1')]);
 
-  const gravity = 2000;
-  mario.pos.set(64, 180);
+  mario.pos.set(74, 180);
 
   level.entities.add(mario);
 
-  const SPACE = 'Space';
-  const input = new Keyboard();
-
-  input.addListener(SPACE, (keyState) => {
-    if (keyState) {
-      mario.jump.start();
-    } else {
-      mario.jump.cancel();
-    }
-  });
+  const input = setupKeyboard(mario);
 
   input.listenTo(window);
   ['mousedown', 'mousemove'].forEach((eventName) => {
@@ -40,7 +30,6 @@ async function main(canvas: HTMLCanvasElement) {
   timer.update = function update(deltaTime) {
     level.update(deltaTime);
     level.comp.draw(context);
-    mario.vel.y += gravity * deltaTime;
   };
 
   timer.start();

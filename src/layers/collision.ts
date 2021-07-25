@@ -28,6 +28,7 @@ export function createCollisionLayer(level: Level) {
       context.stroke();
     });
 
+    console.log(resolvedTiles);
     resolvedTiles.length = 0;
   };
 }
