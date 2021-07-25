@@ -54,8 +54,8 @@ export function loadLevel(name: string): Promise<Level> {
     const spriteLayer = createSpriteLayer(level.entities);
     level.comp.layers.push(spriteLayer);
 
-    const collisionLayer = createCollisionLayer(level);
-    level.comp.layers.push(collisionLayer);
+    // const collisionLayer = createCollisionLayer(level);
+    // level.comp.layers.push(collisionLayer);
 
     return level;
   });
