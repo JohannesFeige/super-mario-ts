@@ -1,15 +1,17 @@
-import { SpriteName, TileName } from './types';
+import { SpriteName } from './types';
 
 export class SpriteSheet {
-  image: HTMLImageElement;
-  width: number;
-  height: number;
-  tiles: Map<SpriteName, HTMLCanvasElement> = new Map();
+  private image: HTMLImageElement;
+  private width: number;
+  private height: number;
+  private tiles: Map<SpriteName, HTMLCanvasElement>;
 
   constructor(image: HTMLImageElement, width: number, height: number) {
     this.image = image;
     this.width = width;
     this.height = height;
+
+    this.tiles = new Map();
   }
 
   define(name: SpriteName, x: number, y: number, width: number, height: number) {

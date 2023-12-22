@@ -11,8 +11,6 @@ export type Background = {
   ranges: [x1: number, x2: number, y1: number, y2: number][];
 };
 
-export type Layer = (context: CanvasRenderingContext2D) => void;
-
 export type Position = {
   x: number;
   y: number;

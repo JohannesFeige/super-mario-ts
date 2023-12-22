@@ -1,7 +1,8 @@
-import { Layer } from './types';
+type Layer = (context: CanvasRenderingContext2D) => void;
 
 export class Compositor {
   layers: Layer[];
+
   constructor() {
     this.layers = [];
   }

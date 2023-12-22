@@ -1,3 +1,4 @@
+import { Entity } from './Entity';
 import { SpriteSheet } from './SpriteSheet';
 import { Background, Level } from './types';
 
@@ -10,6 +11,7 @@ function drawBackground(background: Level['backgrounds'][number], context: Canva
     }
   });
 }
+
 export function createBackgroundLayer(backgrounds: Background[], sprites: SpriteSheet) {
   const buffer = document.createElement('canvas');
   buffer.width = 256;
@@ -19,5 +21,11 @@ export function createBackgroundLayer(backgrounds: Background[], sprites: Sprite
 
   return (context: CanvasRenderingContext2D) => {
     context.drawImage(buffer, 0, 0);
+  };
+}
+
+export function createSpriteLayer(entity: Entity) {
+  return (context: CanvasRenderingContext2D) => {
+    entity.draw(context);
   };
 }
