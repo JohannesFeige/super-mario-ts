@@ -1,17 +1,9 @@
+import { Compositor } from './Compositor';
 import { SpriteSheet } from './SpriteSheet';
-import tilesURL from './images/tiles.png?url';
-import { loadImage, loadLevel } from './loaders';
-import { Level } from './types';
-
-function drawBackground(background: Level['backgrounds'][number], context: CanvasRenderingContext2D, sprites: SpriteSheet) {
-  background.ranges.forEach(([x1, x2, y1, y2]) => {
-    for (let x = x1; x < x2; x++) {
-      for (let y = y1; y < y2; y++) {
-        sprites.drawTile(background.tile, context, x, y);
-      }
-    }
-  });
-}
+import { createBackgroundLayer } from './layer';
+import { loadLevel } from './loaders';
+import { loadBackgroundSprites, loadMarioSprites } from './sprites';
+import { Position } from './types';
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement;
 const context = canvas.getContext('2d');
@@ -20,18 +12,34 @@ if (!context) {
   throw 'context not found';
 }
 
-loadImage(tilesURL).then((image) => {
-  const sprites = new SpriteSheet(image, 16, 16);
-  sprites.define('ground', 0, 0);
-  sprites.define('sky', 3, 23);
+function createSpriteLayer(sprite: SpriteSheet, pos: Position) {
+  return (context: CanvasRenderingContext2D) => {
+    sprite.draw('idle', context, pos.x, pos.y);
+  };
+}
 
-  loadLevel('1-1').then((level) => {
-    level.backgrounds.forEach((background) => drawBackground(background, context, sprites));
-  });
+Promise.all([loadMarioSprites(), loadBackgroundSprites(), loadLevel('1-1')]).then(([marioSprite, backgroundSprites, level]) => {
+  const compositor = new Compositor();
 
-  for (let x = 0; x < 25; x++) {
-    for (let y = 12; y < 14; y++) {
-      sprites.drawTile('ground', context, x, y);
-    }
+  const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites);
+  compositor.layers.push(backgroundLayer);
+
+  const pos = {
+    x: 64,
+    y: 64,
+  };
+
+  const spriteLayer = createSpriteLayer(marioSprite, pos);
+  compositor.layers.push(spriteLayer);
+
+  function update() {
+    compositor.draw(context!);
+
+    pos.x += 2;
+    pos.y += 2;
+
+    requestAnimationFrame(update);
   }
+
+  update();
 });

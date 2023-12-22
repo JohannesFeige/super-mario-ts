@@ -10,6 +10,7 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
   });
 }
 
-export function loadLevel(name: string) {
-  return fetch(`/levels/${name}.json`).then((r) => r.json() as Promise<Level>);
+export async function loadLevel(name: string) {
+  const level = await fetch(`/levels/${name}.json`);
+  return await (level.json() as Promise<Level>);
 }
