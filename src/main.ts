@@ -1,4 +1,5 @@
 import { Compositor } from './Compositor';
+import { KeyboardState } from './KeyboardState';
 import { Timer } from './Timer';
 import { createMario } from './entities';
 import { createBackgroundLayer, createSpriteLayer } from './layer';
@@ -18,18 +19,29 @@ Promise.all([createMario(), loadBackgroundSprites(), loadLevel('1-1')]).then(([m
   const backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundSprites);
   compositor.layers.push(backgroundLayer);
 
-  const gravity = 30;
+  const gravity = 2000;
   mario.pos.set(64, 180);
-  mario.vel.set(200, -600);
+
+  const input = new KeyboardState();
+  input.addMapping('Space', (keystate) => {
+    if (keystate === 'pressed') {
+      mario.jump.start();
+    } else {
+      mario.jump.cancel();
+    }
+  });
+
+  input.listenTo(window);
 
   const spriteLayer = createSpriteLayer(mario);
   compositor.layers.push(spriteLayer);
 
   const timer = new Timer();
   timer.update = function update(deltaTime) {
-    compositor.draw(context!);
     mario.update(deltaTime);
-    mario.vel.y += gravity;
+
+    compositor.draw(context!);
+    mario.vel.y += gravity * deltaTime;
   };
 
   timer.start();

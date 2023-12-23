@@ -9,8 +9,8 @@ export class Timer {
     this.enqueue();
   }
 
-  private updateProxy = (time: number = 0) => {
-    this.accumulatedTime += (time - this.lastTime) / 1000;
+  private updateProxy = (time: number) => {
+    this.accumulatedTime += (time - this.lastTime) / 1500;
 
     while (this.accumulatedTime > this.deltaTime) {
       this.update(this.deltaTime);

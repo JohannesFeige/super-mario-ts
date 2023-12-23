@@ -1,18 +1,17 @@
-import { Entity } from './Entity';
+import { Velocity } from './traits/Velocity';
 import { loadMarioSprites } from './sprites';
+import { Mario } from './entities/Mario';
 
 export async function createMario() {
   const sprite = await loadMarioSprites();
 
-  const mario = new Entity();
+  const mario = new Mario();
+
+  mario.addTrait(new Velocity());
 
   mario.draw = function (context) {
     sprite.draw('idle', context, this.pos.x, this.pos.y);
   };
 
-  mario.update = function (deltaTime) {
-    this.pos.x += this.vel.x * deltaTime;
-    this.pos.y += this.vel.y * deltaTime;
-  };
   return mario;
 }
