@@ -1,4 +1,7 @@
-export type KeyState = 'pressed' | 'released';
+export enum KeyState {
+  Released = 0,
+  Pressed = 1,
+}
 
 export class KeyboardState {
   // Holds the current state of a given key
@@ -20,7 +23,7 @@ export class KeyboardState {
 
     event.preventDefault();
 
-    const keyState: KeyState = event.type === 'keydown' ? 'pressed' : 'released';
+    const keyState: KeyState = event.type === 'keydown' ? KeyState.Pressed : KeyState.Released;
 
     if (this.keyStates.get(code) === keyState) {
       return;
@@ -34,6 +37,7 @@ export class KeyboardState {
     const eventNames = ['keydown', 'keyup'] as const;
     eventNames.forEach((eventName) => {
       window.addEventListener(eventName, (event) => {
+        console.log({ event });
         this.handleEvent(event);
       });
     });

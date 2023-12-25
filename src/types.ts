@@ -2,7 +2,7 @@ export type TileName = 'ground' | 'sky';
 export type CharacterName = 'idle';
 export type SpriteName = TileName | CharacterName;
 
-export type Level = {
+export type LevelSpec = {
   backgrounds: Background[];
 };
 
@@ -14,4 +14,8 @@ export type Background = {
 export type Position = {
   x: number;
   y: number;
+};
+
+export type LevelSpecTile = {
+  name: TileName;
 };
