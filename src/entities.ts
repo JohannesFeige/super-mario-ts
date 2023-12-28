@@ -8,7 +8,7 @@ export async function createMario() {
   mario.size.set(14, 16);
 
   mario.draw = function (context) {
-    sprite.draw('idle', context, this.pos.x, this.pos.y);
+    sprite.draw('idle', context, 0, 0);
   };
 
   return mario;

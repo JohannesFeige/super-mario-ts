@@ -1,7 +1,7 @@
 import { Level } from './Level';
-import { createBackgroundLayer, createSpriteLayer } from './layer';
-import { loadBackgroundSprites } from './sprites';
-import { Background, LevelSpec } from './types';
+import { SpriteSheet } from './SpriteSheet';
+import { createBackgroundLayer, createSpriteLayer } from './layers';
+import { Background, LevelSpec, SheetSpec } from './types';
 
 export function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve) => {
@@ -13,23 +13,53 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
   });
 }
 
+async function loadJSON<T = unknown>(url: string) {
+  return fetch(url).then((r) => r.json()) as Promise<T>;
+}
+
 function createTiles(level: Level, backgrounds: Background[]) {
+  function applyRanges(background: Background, xStart: number, xLength: number, yStart: number, yLength: number) {
+    const xEnd = xStart + xLength;
+    const yEnd = yStart + yLength;
+
+    for (let x = xStart; x < xEnd; x++) {
+      for (let y = yStart; y < yEnd; y++) {
+        level.tiles.set(x, y, { name: background.tile, type: background.type });
+      }
+    }
+  }
+
   backgrounds.forEach((background) => {
-    background.ranges.forEach(([x1, x2, y1, y2]) => {
-      for (let x = x1; x < x2; x++) {
-        for (let y = y1; y < y2; y++) {
-          level.tiles.set(x, y, { name: background.tile });
-        }
+    background.ranges.forEach((range) => {
+      if (range.length === 4) {
+        applyRanges(background, ...range);
+      } else if (range.length === 3) {
+        const [xStart, xLen, yStart] = range;
+        applyRanges(background, xStart, xLen, yStart, 1);
+      } else if (range.length === 2) {
+        const [xStart, yStart] = range;
+        applyRanges(background, xStart, 1, yStart, 1);
       }
     });
   });
 }
 
+async function loadSpriteSheet(name: string) {
+  const sheetSpec = await loadJSON<SheetSpec>(`/sprites/${name}.json`);
+  const image = await loadImage(sheetSpec.imageUrl);
+
+  const sprites = new SpriteSheet(image, sheetSpec.tileW, sheetSpec.tileH);
+
+  sheetSpec.tiles.forEach((tile) => {
+    sprites.defineTile(tile.name, ...tile.index);
+  });
+
+  return sprites;
+}
+
 export async function loadLevel(name: string) {
-  const [levelSpec, backgroundSprites] = await Promise.all([
-    fetch(`/levels/${name}.json`).then((r) => r.json()) as Promise<LevelSpec>,
-    loadBackgroundSprites(),
-  ]);
+  const levelSpec = await loadJSON<LevelSpec>(`/levels/${name}.json`);
+  const backgroundSprites = await loadSpriteSheet(levelSpec.spriteSheet);
 
   const level = new Level();
   createTiles(level, levelSpec.backgrounds);
