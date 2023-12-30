@@ -12,7 +12,7 @@ export function setupKeyboard(mario: Mario) {
   });
 
   input.addMapping('ArrowRight', (keystate) => {
-    mario.go.dir = keystate;
+    mario.go.dir = +keystate;
   });
 
   input.addMapping('ArrowLeft', (keystate) => {

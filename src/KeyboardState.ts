@@ -37,7 +37,6 @@ export class KeyboardState {
     const eventNames = ['keydown', 'keyup'] as const;
     eventNames.forEach((eventName) => {
       window.addEventListener(eventName, (event) => {
-        console.log({ event });
         this.handleEvent(event);
       });
     });

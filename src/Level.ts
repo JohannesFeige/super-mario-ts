@@ -6,6 +6,7 @@ import { LevelSpecTile } from './types';
 
 export class Level {
   gravity = 2000;
+  totalTime = 0;
   entities = new Set<Entity>();
   comp = new Compositor();
   tiles = new Matrix<LevelSpecTile>();
@@ -27,5 +28,7 @@ export class Level {
 
       entity.vel.y += this.gravity * deltaTime;
     });
+
+    this.totalTime += deltaTime;
   }
 }

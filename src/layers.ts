@@ -16,18 +16,16 @@ export function createBackgroundLayer(level: Level, sprites: SpriteSheet) {
   let startIndex: number;
   let endIndex: number;
   function redraw(drawFrom: number, drawTo: number) {
-    if (drawFrom === startIndex && drawTo && endIndex) {
-      return;
-    }
-
-    console.log('redrawing');
-
     startIndex = drawFrom;
     endIndex = drawTo;
 
     for (let x = drawFrom; x <= drawTo; ++x) {
       tiles.grid[x]?.forEach((tile, y) => {
-        sprites.drawTile(tile.name, context, x - drawFrom, y);
+        if (sprites.animations.has(tile.name)) {
+          sprites.drawAnimation(tile.name, context, x - drawFrom, y, level.totalTime);
+        } else {
+          sprites.drawTile(tile.name, context, x - drawFrom, y);
+        }
       });
     }
   }
