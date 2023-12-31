@@ -3,7 +3,7 @@ import { Mario } from './entities/Mario';
 
 export function setupKeyboard(mario: Mario) {
   const input = new KeyboardState();
-  input.addMapping('Space', (keystate) => {
+  input.addMapping('KeyP', (keystate) => {
     if (keystate === KeyState.Pressed) {
       mario.jump.start();
     } else {
@@ -11,12 +11,16 @@ export function setupKeyboard(mario: Mario) {
     }
   });
 
-  input.addMapping('ArrowRight', (keystate) => {
-    mario.go.dir = +keystate;
+  input.addMapping('KeyO', (keystate) => {
+    mario.turbo(Boolean(keystate));
   });
 
-  input.addMapping('ArrowLeft', (keystate) => {
-    mario.go.dir = -keystate;
+  input.addMapping('KeyD', (keystate) => {
+    mario.go.dir += keystate ? 1 : -1;
+  });
+
+  input.addMapping('KeyA', (keystate) => {
+    mario.go.dir += keystate ? -1 : 1;
   });
 
   return input;

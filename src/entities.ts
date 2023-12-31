@@ -1,7 +1,6 @@
 import { createAnimation } from './animation';
 import { Mario } from './entities/Mario';
 import { loadSpriteSheet } from './loaders';
-import { Direction } from './traits/Go';
 import { CharacterName } from './types';
 
 export async function createMario() {
@@ -10,9 +9,16 @@ export async function createMario() {
   const mario = new Mario();
   mario.size.set(14, 16);
 
-  const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'] as const, 10);
+  const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'] as const, 6);
   function routeFrame(mario: Mario): CharacterName {
-    if (mario.go.dir !== Direction.Idle) {
+    if (mario.jump.falling) {
+      return 'jump';
+    }
+
+    if (mario.go.distance > 0) {
+      if (mario.vel.x * mario.go.dir < 0) {
+        return 'break';
+      }
       return runAnimation(mario.go.distance);
     }
 

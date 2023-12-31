@@ -7,3 +7,9 @@ Based on [Meth Meth Method](https://www.youtube.com/MethMethMethod) YouTube seri
 - Run `pnpm i`
 - Run `pnpm dev`
 - Go to `http://localhost:5173`
+
+## Playing
+
+- Left: `"A"`
+- Right: `"D"`
+- Jump: `"P"`

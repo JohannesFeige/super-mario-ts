@@ -12,4 +12,8 @@ export class Mario extends Entity {
     this.jump = this.addTrait(new Jump());
     this.go = this.addTrait(new Go());
   }
+
+  turbo(turboOn: boolean) {
+    this.go.dragFactor = turboOn ? Go.FAST_DRAG : Go.SLOW_DRAG;
+  }
 }

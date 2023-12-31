@@ -1,10 +1,15 @@
 import { Trait } from './traits/Trait';
 import { Vec2 } from './math';
+import { Jump } from './traits/Jump';
+
+export type Side = 'top' | 'bottom';
 
 export class Entity {
   pos: Vec2;
   vel: Vec2;
   size: Vec2;
+
+  jump?: Jump;
 
   private traits: Trait[];
 
@@ -19,6 +24,12 @@ export class Entity {
   addTrait<T extends Trait>(trait: T) {
     this.traits.push(trait);
     return trait;
+  }
+
+  obstruct(side: Side) {
+    this.traits.forEach((trait) => {
+      trait.obstruct(this, side);
+    });
   }
 
   update(deltaTime: number) {

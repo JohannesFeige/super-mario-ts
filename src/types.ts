@@ -1,6 +1,6 @@
 export type TileName = 'ground' | 'sky' | 'chocolate' | 'bricks' | 'chance' | AnimationName;
 export type TileType = 'ground';
-export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3';
+export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3' | 'break' | 'jump';
 export type SpriteName = TileName | CharacterName;
 export type AnimationName = 'chance-1' | 'chance-2' | 'chance-3';
 
@@ -13,11 +13,6 @@ export type Background = {
   tile: TileName;
   type?: TileType;
   ranges: [x1: number, x2: number, y1: number, y2: number][];
-};
-
-export type Position = {
-  x: number;
-  y: number;
 };
 
 export type LevelSpecTile = {
