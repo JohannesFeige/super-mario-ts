@@ -10,12 +10,12 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
     image.addEventListener('load', () => {
       resolve(image);
     });
-    image.src = url;
+    image.src = `${import.meta.env.BASE_URL}${url}`;
   });
 }
 
 async function loadJSON<T = unknown>(url: string) {
-  return fetch(url).then((r) => r.json()) as Promise<T>;
+  return fetch(`${import.meta.env.BASE_URL}${url}`).then((r) => r.json()) as Promise<T>;
 }
 
 function createTiles(level: Level, backgrounds: Background[]) {
