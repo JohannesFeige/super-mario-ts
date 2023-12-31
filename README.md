@@ -13,3 +13,6 @@ Based on [Meth Meth Method](https://www.youtube.com/MethMethMethod) YouTube seri
 - Left: `"A"`
 - Right: `"D"`
 - Jump: `"P"`
+
+## Demo
+[Demo](https://<OWNER>.github.io/<REPOSITORY>/)
