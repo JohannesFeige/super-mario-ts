@@ -2,7 +2,7 @@ import { Level } from '../Level';
 import { createBackgroundLayer, createSpriteLayer } from '../layers';
 import { loadJSON, loadSpriteSheet } from '../loaders';
 import { Matrix } from '../math';
-import { LevelSpec, LevelSpecTile, Patterns, Tile, TileName, TileRange } from '../types';
+import { LevelSpec, Patterns, Tile, TileName, TileRange, TileType } from '../types';
 
 export async function loadLevel(name: string) {
   const levelSpec = await loadJSON<LevelSpec>(`/levels/${name}.json`);
@@ -29,8 +29,7 @@ export async function loadLevel(name: string) {
 }
 
 function createCollisionGrid(tiles: Tile[], patterns: Patterns) {
-  // todo: should be Matrix<{type: TileType}>()
-  const grid = new Matrix<LevelSpecTile>();
+  const grid = new Matrix<{ type?: TileType }>();
 
   for (const { tile, x, y } of expandTiles(tiles, patterns)) {
     grid.set(x, y, { ...tile });

@@ -1,12 +1,12 @@
 import { Entity } from './Entity';
 import { TileResolver } from './TileResolver';
 import { Matrix } from './math';
-import { LevelSpecTile } from './types';
+import { TileType } from './types';
 
 export class TileCollider {
-  tiles: TileResolver<LevelSpecTile>;
+  tiles: TileResolver<{ type?: TileType }>;
 
-  constructor(tileMatrix: Matrix<LevelSpecTile>) {
+  constructor(tileMatrix: Matrix<{ type?: TileType }>) {
     this.tiles = new TileResolver(tileMatrix);
   }
 

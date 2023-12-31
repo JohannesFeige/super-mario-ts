@@ -2,7 +2,7 @@ import { Compositor } from './Compositor';
 import { Entity } from './Entity';
 import { TileCollider } from './TileCollider';
 import { Matrix } from './math';
-import { LevelSpecTile } from './types';
+import { TileType } from './types';
 
 export class Level {
   private gravity: number;
@@ -18,7 +18,7 @@ export class Level {
     this.comp = new Compositor();
   }
 
-  setCollisionGrid(matrix: Matrix<LevelSpecTile>) {
+  setCollisionGrid(matrix: Matrix<{ type?: TileType }>) {
     this.tileCollider = new TileCollider(matrix);
   }
 
