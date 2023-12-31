@@ -9,16 +9,17 @@ export class Level {
   totalTime: number;
   entities: Set<Entity>;
   comp: Compositor;
-  tiles: Matrix<LevelSpecTile>;
-  tileCollider: TileCollider;
+  tileCollider?: TileCollider;
 
   constructor() {
     this.gravity = 1500;
     this.totalTime = 0;
     this.entities = new Set<Entity>();
     this.comp = new Compositor();
-    this.tiles = new Matrix<LevelSpecTile>();
-    this.tileCollider = new TileCollider(this.tiles);
+  }
+
+  setCollisionGrid(matrix: Matrix<LevelSpecTile>) {
+    this.tileCollider = new TileCollider(matrix);
   }
 
   update(deltaTime: number) {
@@ -26,10 +27,10 @@ export class Level {
       entity.update(deltaTime);
 
       entity.pos.x += entity.vel.x * deltaTime;
-      this.tileCollider.checkX(entity);
+      this.tileCollider?.checkX(entity);
 
       entity.pos.y += entity.vel.y * deltaTime;
-      this.tileCollider.checkY(entity);
+      this.tileCollider?.checkY(entity);
 
       entity.vel.y += this.gravity * deltaTime;
     });

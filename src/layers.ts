@@ -2,10 +2,12 @@ import { Camera } from './Camera';
 import { Entity } from './Entity';
 import { Level } from './Level';
 import { SpriteSheet } from './SpriteSheet';
+import { TileResolver } from './TileResolver';
+import { Matrix } from './math';
+import { TileName } from './types';
 
-export function createBackgroundLayer(level: Level, sprites: SpriteSheet) {
-  const tiles = level.tiles;
-  const resolver = level.tileCollider.tiles;
+export function createBackgroundLayer(level: Level, tileMatrix: Matrix<{ name: TileName }>, sprites: SpriteSheet) {
+  const resolver = new TileResolver(tileMatrix);
 
   const buffer = document.createElement('canvas');
   buffer.width = 256 + 16;
@@ -13,20 +15,15 @@ export function createBackgroundLayer(level: Level, sprites: SpriteSheet) {
 
   const context = buffer.getContext('2d')!;
 
-  // @ts-ignore
-  let startIndex: number;
-  // @ts-ignore
-  let endIndex: number;
-  function redraw(drawFrom: number, drawTo: number) {
-    startIndex = drawFrom;
-    endIndex = drawTo;
+  function redraw(startIndex: number, endIndex: number) {
+    context.clearRect(0, 0, buffer.width, buffer.height);
 
-    for (let x = drawFrom; x <= drawTo; ++x) {
-      tiles.grid[x]?.forEach((tile, y) => {
+    for (let x = startIndex; x <= endIndex; ++x) {
+      tileMatrix.grid[x]?.forEach((tile, y) => {
         if (sprites.animations.has(tile.name)) {
-          sprites.drawAnimation(tile.name, context, x - drawFrom, y, level.totalTime);
+          sprites.drawAnimation(tile.name, context, x - startIndex, y, level.totalTime);
         } else {
-          sprites.drawTile(tile.name, context, x - drawFrom, y);
+          sprites.drawTile(tile.name, context, x - startIndex, y);
         }
       });
     }
