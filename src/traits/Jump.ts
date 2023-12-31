@@ -2,9 +2,17 @@ import { Entity } from '../Entity';
 import { Trait } from './Trait';
 
 export class Jump extends Trait {
-  duration = 0.5;
-  velocity = 200;
-  engageTime = 0;
+  private duration: number;
+  private velocity: number;
+  private engageTime: number;
+
+  constructor() {
+    super();
+
+    this.duration = 0.5;
+    this.velocity = 200;
+    this.engageTime = 0;
+  }
 
   start() {
     this.engageTime = this.duration;

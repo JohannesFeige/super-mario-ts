@@ -2,11 +2,19 @@ import { Trait } from './traits/Trait';
 import { Vec2 } from './math';
 
 export class Entity {
-  pos: Vec2 = new Vec2(0, 0);
-  vel: Vec2 = new Vec2(0, 0);
-  size: Vec2 = new Vec2(0, 0);
+  pos: Vec2;
+  vel: Vec2;
+  size: Vec2;
 
-  private traits: Trait[] = [];
+  private traits: Trait[];
+
+  constructor() {
+    this.pos = new Vec2(0, 0);
+    this.vel = new Vec2(0, 0);
+    this.size = new Vec2(0, 0);
+
+    this.traits = [];
+  }
 
   addTrait<T extends Trait>(trait: T) {
     this.traits.push(trait);

@@ -1,7 +1,7 @@
 import { Matrix } from './math';
 
 export class TileResolver<T = unknown> {
-  matrix: Matrix<T>;
+  private matrix: Matrix<T>;
   tileSize: number;
 
   constructor(matrix: Matrix<T>, tileSize = 16) {

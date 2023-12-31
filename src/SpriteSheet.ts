@@ -4,13 +4,15 @@ export class SpriteSheet {
   private image: HTMLImageElement;
   private width: number;
   private height: number;
-  private tiles: Map<SpriteName, HTMLCanvasElement[]> = new Map();
-  animations: Map<SpriteName, (distance: number) => AnimationName> = new Map();
+  private tiles: Map<SpriteName, HTMLCanvasElement[]>;
+  animations: Map<SpriteName, (distance: number) => AnimationName>;
 
   constructor(image: HTMLImageElement, width: number, height: number) {
     this.image = image;
     this.width = width;
     this.height = height;
+    this.tiles = new Map();
+    this.animations = new Map();
   }
 
   defineAnimation(name: SpriteName, animation: (distance: number) => AnimationName) {

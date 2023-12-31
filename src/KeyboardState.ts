@@ -10,11 +10,16 @@ export class KeyboardState {
   // Holds the callback functions for a key code
   private keyMap: Map<string, any> = new Map();
 
+  constructor() {
+    this.keyStates = new Map();
+    this.keyMap = new Map();
+  }
+
   addMapping(code: string, callback: (keyState: KeyState) => void) {
     this.keyMap.set(code, callback);
   }
 
-  handleEvent(event: KeyboardEvent) {
+  private handleEvent(event: KeyboardEvent) {
     const { code } = event;
 
     if (!this.keyMap.has(code)) {

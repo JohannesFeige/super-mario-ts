@@ -5,14 +5,19 @@ import { Matrix } from './math';
 import { LevelSpecTile } from './types';
 
 export class Level {
-  gravity = 2000;
-  totalTime = 0;
-  entities = new Set<Entity>();
-  comp = new Compositor();
-  tiles = new Matrix<LevelSpecTile>();
+  private gravity: number;
+  totalTime: number;
+  entities: Set<Entity>;
+  comp: Compositor;
+  tiles: Matrix<LevelSpecTile>;
   tileCollider: TileCollider;
 
   constructor() {
+    this.gravity = 2000;
+    this.totalTime = 0;
+    this.entities = new Set<Entity>();
+    this.comp = new Compositor();
+    this.tiles = new Matrix<LevelSpecTile>();
     this.tileCollider = new TileCollider(this.tiles);
   }
 

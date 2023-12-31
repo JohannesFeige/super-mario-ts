@@ -3,10 +3,13 @@ import { Go } from '../traits/Go';
 import { Jump } from '../traits/Jump';
 
 export class Mario extends Entity {
-  jump = this.addTrait(new Jump());
-  go = this.addTrait(new Go());
+  jump: Jump;
+  go: Go;
 
   constructor() {
     super();
+
+    this.jump = this.addTrait(new Jump());
+    this.go = this.addTrait(new Go());
   }
 }

@@ -8,11 +8,20 @@ export enum Direction {
 }
 
 export class Go extends Trait {
-  dir = Direction.Idle;
-  speed = 6000;
-  engageTime = 0;
-  distance = 0;
-  heading = 1;
+  dir: Direction;
+  distance: number;
+  heading: Direction;
+
+  private speed: number;
+
+  constructor() {
+    super();
+
+    this.dir = Direction.Idle;
+    this.speed = 6000;
+    this.distance = 0;
+    this.heading = Direction.Right;
+  }
 
   update(entity: Entity, deltaTime: number) {
     entity.vel.x = this.speed * this.dir * deltaTime;
