@@ -13,7 +13,9 @@ export function createBackgroundLayer(level: Level, sprites: SpriteSheet) {
 
   const context = buffer.getContext('2d')!;
 
+  // @ts-ignore
   let startIndex: number;
+  // @ts-ignore
   let endIndex: number;
   function redraw(drawFrom: number, drawTo: number) {
     startIndex = drawFrom;
