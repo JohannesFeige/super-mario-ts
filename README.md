@@ -15,4 +15,4 @@ Based on [Meth Meth Method](https://www.youtube.com/MethMethMethod) YouTube seri
 - Jump: `"P"`
 
 ## Demo
-[Demo](https://<OWNER>.github.io/<REPOSITORY>/)
+[GitHub Pager](https://johannesfeige.github.io/super-mario-ts/)
