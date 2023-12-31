@@ -56,6 +56,10 @@ export function createSpriteLayer(entities: Set<Entity>, width = 64, height = 64
 }
 
 export function createCollisionLayer(level: Level) {
+  if (!level.tileCollider) {
+    return;
+  }
+
   const resolvedTiles: { x: number; y: number }[] = [];
 
   const tileResolver = level.tileCollider.tiles;
