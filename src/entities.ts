@@ -1,33 +1,15 @@
-import { createAnimation } from './animation';
-import { Mario } from './entities/Mario';
-import { loadSpriteSheet } from './loaders';
-import { CharacterName } from './types';
+import { Entity } from './Entity';
+import { loadGoomba } from './entities/createGoomba';
+import { loadKoopa } from './entities/createKoopa';
+import { loadMario } from './entities/createMario';
 
-export async function createMario() {
-  const sprite = await loadSpriteSheet('mario');
+export async function loadEntities() {
+  const entityFactories: Record<string, () => Entity> = {};
 
-  const mario = new Mario();
-  mario.size.set(14, 16);
-
-  const runAnimation = createAnimation(['run-1', 'run-2', 'run-3'] as const, 6);
-  function routeFrame(mario: Mario): CharacterName {
-    if (mario.jump.falling) {
-      return 'jump';
-    }
-
-    if (mario.go.distance > 0) {
-      if (mario.vel.x * mario.go.dir < 0) {
-        return 'break';
-      }
-      return runAnimation(mario.go.distance);
-    }
-
-    return 'idle';
+  function addAs(name: string) {
+    return (factory: () => Entity) => (entityFactories[name] = factory);
   }
 
-  mario.draw = function (context) {
-    sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
-  };
-
-  return mario;
+  await Promise.all([loadMario().then(addAs('mario')), loadGoomba().then(addAs('goomba')), loadKoopa().then(addAs('koopa'))]);
+  return entityFactories;
 }

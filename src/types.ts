@@ -3,7 +3,7 @@ export type TileName = 'ground' | 'sky' | 'chocolate' | 'bricks' | 'chance' | An
 export type TileType = 'ground';
 export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3' | 'break' | 'jump';
 export type SpriteName = TileName | CharacterName;
-export type AnimationName = 'chance-1' | 'chance-2' | 'chance-3';
+export type AnimationName = 'chance-1' | 'chance-2' | 'chance-3' | 'run' | 'walk';
 export type PatternName = 'pipe-2h';
 
 export type LevelSpec = {

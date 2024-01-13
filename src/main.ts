@@ -1,7 +1,9 @@
 import { Camera } from './Camera';
 import { Timer } from './Timer';
-import { createMario } from './entities';
+import { loadEntities } from './entities';
+import { Mario } from './entities/Mario';
 import { setupKeyboard } from './input';
+import { createCollisionLayer } from './layers';
 import { loadLevel } from './loaders/level';
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement;
@@ -11,12 +13,23 @@ if (!context) {
   throw 'context not found';
 }
 
-Promise.all([createMario(), loadLevel('1-1')]).then(([mario, level]) => {
+Promise.all([loadEntities(), loadLevel('1-1')]).then(([entity, level]) => {
   const camera = new Camera();
 
+  const mario = entity.mario() as Mario;
   mario.pos.set(64, 180);
 
+  const goomba = entity.goomba();
+  goomba.pos.x = 220;
+
+  const koopa = entity.koopa();
+  koopa.pos.x = 260;
+
   level.entities.add(mario);
+  level.entities.add(goomba);
+  level.entities.add(koopa);
+
+  level.comp.layers.push(createCollisionLayer(level)!);
 
   const input = setupKeyboard(mario);
 
