@@ -10,6 +10,7 @@ export type LevelSpec = {
   spriteSheet: string;
   layers: Layer[];
   patterns: Patterns;
+  entities: { name: string; pos: [x: number, y: number] }[];
 };
 
 export type Layer = {
