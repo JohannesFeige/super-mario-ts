@@ -1,9 +1,9 @@
 // todo: clean up literal types
 export type TileName = 'ground' | 'sky' | 'chocolate' | 'bricks' | 'chance' | AnimationName;
 export type TileType = 'ground';
-export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3' | 'break' | 'jump';
+export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3' | 'break' | 'jump' | 'flat' | 'hiding';
 export type SpriteName = TileName | CharacterName;
-export type AnimationName = 'chance-1' | 'chance-2' | 'chance-3' | 'run' | 'walk';
+export type AnimationName = 'chance-1' | 'chance-2' | 'chance-3' | 'run' | 'walk' | 'wake';
 export type PatternName = 'pipe-2h';
 
 export type LevelSpec = {

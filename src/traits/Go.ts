@@ -1,4 +1,5 @@
 import { Entity } from '../Entity';
+import { Jump } from './Jump';
 import { Trait } from './Trait';
 
 export enum Direction {
@@ -20,7 +21,7 @@ export class Go extends Trait {
   private deceleration: number;
 
   constructor() {
-    super();
+    super('go');
 
     this.dir = Direction.Idle;
     this.distance = 0;
@@ -37,8 +38,8 @@ export class Go extends Trait {
     if (this.dir !== 0) {
       entity.vel.x += this.acceleration * deltaTime * this.dir;
 
-      if (entity.jump) {
-        if (entity.jump.falling === false) {
+      if (entity.traitProperties.jump) {
+        if ((entity.traitProperties.jump as Jump).falling === false) {
           this.heading = this.dir;
         }
       } else {

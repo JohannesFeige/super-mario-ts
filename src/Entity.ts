@@ -1,6 +1,6 @@
 import { BoundingBox } from './BoundingBox';
+import { Level } from './Level';
 import { Vec2 } from './math';
-import { Jump } from './traits/Jump';
 import { Trait } from './traits/Trait';
 
 export type Side = 'top' | 'bottom' | 'left' | 'right';
@@ -11,8 +11,9 @@ export class Entity {
   size: Vec2;
   offset: Vec2;
   lifetime: number;
-  jump?: Jump;
+  traitProperties: Record<string, Trait>;
   bounds: BoundingBox;
+  canCollide: boolean;
 
   private traits: Trait[];
 
@@ -23,14 +24,23 @@ export class Entity {
     this.offset = new Vec2(0, 0);
 
     this.traits = [];
+    this.traitProperties = {};
     this.lifetime = 0;
+    this.canCollide = true;
 
     this.bounds = new BoundingBox(this.pos, this.size, this.offset);
   }
 
   addTrait<T extends Trait>(trait: T) {
     this.traits.push(trait);
+    this.traitProperties[trait.NAME] = trait;
     return trait;
+  }
+
+  collides(candidate: Entity) {
+    this.traits.forEach((trait) => {
+      trait.collides(this, candidate);
+    });
   }
 
   obstruct(side: Side) {
@@ -39,11 +49,12 @@ export class Entity {
     });
   }
 
-  update(deltaTime: number) {
+  draw(_context: CanvasRenderingContext2D) {}
+
+  update(deltaTime: number, level: Level) {
     this.traits.forEach((trait) => {
-      trait.update(this, deltaTime);
+      trait.update(this, deltaTime, level);
     });
     this.lifetime += deltaTime;
   }
-  draw!: (context: CanvasRenderingContext2D) => void;
 }

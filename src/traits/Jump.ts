@@ -16,7 +16,7 @@ export class Jump extends Trait {
   }
 
   constructor() {
-    super();
+    super('jump');
 
     this.ready = 0;
     this.duration = 0.3;
