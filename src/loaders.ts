@@ -13,7 +13,7 @@ export async function loadImage(url: string): Promise<HTMLImageElement> {
 }
 
 export async function loadJSON<T = unknown>(url: string) {
-  return fetch(`${import.meta.env.BASE_URL}${url}`).then((r) => r.json()) as Promise<T>;
+  return fetch(`${import.meta.env.BASE_URL}${url}?v=${Date.now()}`).then((r) => r.json()) as Promise<T>;
 }
 
 export async function loadSpriteSheet(name: string) {
