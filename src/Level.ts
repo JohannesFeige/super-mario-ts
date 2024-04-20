@@ -32,14 +32,10 @@ export class Level {
 
       entity.pos.x += entity.vel.x * deltaTime;
 
-      if (entity.canCollide) {
-        this.tileCollider?.checkX(entity);
-      }
+      this.tileCollider?.checkX(entity);
 
       entity.pos.y += entity.vel.y * deltaTime;
-      if (entity.canCollide) {
-        this.tileCollider?.checkY(entity);
-      }
+      this.tileCollider?.checkY(entity);
 
       entity.vel.y += this.gravity * deltaTime;
     });

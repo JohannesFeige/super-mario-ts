@@ -43,3 +43,5 @@ type TileSpec = {
 type FrameSpec = {
   frames: { name: CharacterName; rect: [x: number, y: number, width: number, height: number] }[];
 };
+
+export type Match<T = unknown> = { tile: T; x1: number; x2: number; y1: number; y2: number };

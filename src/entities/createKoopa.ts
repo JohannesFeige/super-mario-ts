@@ -4,6 +4,7 @@ import { SpriteSheet } from '../SpriteSheet';
 import { loadSpriteSheet } from '../loaders';
 import { Killable } from '../traits/Killable';
 import { PendulumMove } from '../traits/PendulumMove';
+import { Solid } from '../traits/Solid';
 import { Trait } from '../traits/Trait';
 
 export async function loadKoopa() {
@@ -65,7 +66,7 @@ class Behavior extends Trait {
     } else if (this.state === 'hiding') {
       (us.traitProperties.killable as Killable).kill();
       us.vel.set(100, -200);
-      us.canCollide = false;
+      (us.traitProperties.solid as Solid).obstructs = false;
     } else if (this.state === 'panic') {
       this.hide(us);
     }
@@ -137,6 +138,7 @@ function createKoopaFactory(sprite: SpriteSheet) {
     koopa.vel.x = -30;
     koopa.offset.y = 8;
 
+    koopa.addTrait(new Solid());
     koopa.addTrait(new PendulumMove());
     koopa.addTrait(new Behavior());
     koopa.addTrait(new Killable());

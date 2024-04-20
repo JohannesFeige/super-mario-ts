@@ -2,6 +2,7 @@ import { BoundingBox } from './BoundingBox';
 import { Level } from './Level';
 import { Vec2 } from './math';
 import { Trait } from './traits/Trait';
+import { Match } from './types';
 
 export type Side = 'top' | 'bottom' | 'left' | 'right';
 
@@ -13,7 +14,6 @@ export class Entity {
   lifetime: number;
   traitProperties: Record<string, Trait>;
   bounds: BoundingBox;
-  canCollide: boolean;
 
   private traits: Trait[];
 
@@ -26,7 +26,6 @@ export class Entity {
     this.traits = [];
     this.traitProperties = {};
     this.lifetime = 0;
-    this.canCollide = true;
 
     this.bounds = new BoundingBox(this.pos, this.size, this.offset);
   }
@@ -43,9 +42,9 @@ export class Entity {
     });
   }
 
-  obstruct(side: Side) {
+  obstruct(side: Side, match: Match) {
     this.traits.forEach((trait) => {
-      trait.obstruct(this, side);
+      trait.obstruct(this, side, match);
     });
   }
 

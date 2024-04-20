@@ -1,4 +1,5 @@
 import { Matrix } from './math';
+import { Match } from './types';
 
 export class TileResolver<T = unknown> {
   private matrix: Matrix<T>;
@@ -48,7 +49,7 @@ export class TileResolver<T = unknown> {
   }
 
   searchByRange(x1: number, x2: number, y1: number, y2: number) {
-    const matches: { tile: T; x1: number; x2: number; y1: number; y2: number }[] = [];
+    const matches: Match<T>[] = [];
     this.toIndexRange(x1, x2).forEach((indexX) => {
       this.toIndexRange(y1, y2).forEach((indexY) => {
         const match = this.getByIndex(indexX, indexY);

@@ -1,5 +1,6 @@
 import { Entity, Side } from '../Entity';
 import { Level } from '../Level';
+import { Match } from '../types';
 
 export abstract class Trait {
   NAME: string;
@@ -19,6 +20,6 @@ export abstract class Trait {
   }
 
   update(_entity: Entity, _deltaTime: number, _level: Level) {}
-  obstruct(_entity: Entity, _side: Side) {}
+  obstruct(_entity: Entity, _side: Side, _match: Match) {}
   collides(_us: Entity, _them: Entity) {}
 }
