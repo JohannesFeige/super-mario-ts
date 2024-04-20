@@ -7,6 +7,7 @@ import { setupKeyboard } from './input';
 import { createCollisionLayer } from './layers';
 import { createLevelLoader } from './loaders/level';
 import { PlayerController } from './traits/PlayerController';
+import './style.css';
 
 function createPlayerEnv(playerEntity: Entity) {
   const playerEnv = new Entity();

@@ -1,0 +1,12 @@
+body {
+    background-color: black;
+    margin: 0;
+}
+
+#screen {
+    display: block;
+    height: 100dvh;
+    margin: auto;
+
+    image-rendering: pixelated;
+}
