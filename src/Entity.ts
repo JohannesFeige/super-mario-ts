@@ -51,6 +51,10 @@ export class Entity {
 
   draw(_context: CanvasRenderingContext2D) {}
 
+  finalize() {
+    this.traits.forEach((trait) => trait.finalize());
+  }
+
   update(deltaTime: number, level: Level) {
     this.traits.forEach((trait) => {
       trait.update(this, deltaTime, level);

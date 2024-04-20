@@ -21,7 +21,11 @@ export class Stomper extends Trait {
   }
 
   collides(us: Entity, them: Entity) {
-    if ((them.traitProperties.killable as Killable) && us.vel.y > them.vel.y) {
+    if (!(them.traitProperties.killable as Killable) || (them.traitProperties.killable as Killable).dead) {
+      return;
+    }
+
+    if (us.vel.y > them.vel.y) {
       this.bounce(us, them);
     }
   }
