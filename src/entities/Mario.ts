@@ -2,6 +2,7 @@ import { Entity } from '../Entity';
 import { Go } from '../traits/Go';
 import { Jump } from '../traits/Jump';
 import { Killable } from '../traits/Killable';
+import { Physics } from '../traits/Physics';
 import { Solid } from '../traits/Solid';
 import { Stomper } from '../traits/Stomper';
 
@@ -11,10 +12,12 @@ export class Mario extends Entity {
   stomper: Stomper;
   killable: Killable;
   solid: Solid;
+  physics: Physics;
 
   constructor() {
     super();
 
+    this.physics = this.addTrait(new Physics());
     this.solid = this.addTrait(new Solid());
     this.jump = this.addTrait(new Jump());
     this.go = this.addTrait(new Go());

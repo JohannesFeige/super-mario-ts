@@ -4,6 +4,7 @@ import { SpriteSheet } from '../SpriteSheet';
 import { loadSpriteSheet } from '../loaders';
 import { Killable } from '../traits/Killable';
 import { PendulumMove } from '../traits/PendulumMove';
+import { Physics } from '../traits/Physics';
 import { Solid } from '../traits/Solid';
 import { Trait } from '../traits/Trait';
 
@@ -138,6 +139,7 @@ function createKoopaFactory(sprite: SpriteSheet) {
     koopa.vel.x = -30;
     koopa.offset.y = 8;
 
+    koopa.addTrait(new Physics());
     koopa.addTrait(new Solid());
     koopa.addTrait(new PendulumMove());
     koopa.addTrait(new Behavior());
