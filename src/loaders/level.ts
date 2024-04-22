@@ -1,7 +1,8 @@
 import { Entity } from '../Entity';
 import { Level } from '../Level';
 import { SpriteSheet } from '../SpriteSheet';
-import { createBackgroundLayer, createSpriteLayer } from '../layers';
+import { createBackgroundLayer } from '../layers/background';
+import { createSpriteLayer } from '../layers/sprites';
 import { loadJSON, loadSpriteSheet } from '../loaders';
 import { Matrix } from '../math';
 import { LevelSpec, Patterns, Tile, TileName, TileRange, TileType } from '../types';

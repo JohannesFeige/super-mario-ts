@@ -2,7 +2,7 @@
 export type TileName = 'ground' | 'sky' | 'chocolate' | 'bricks' | 'chance' | AnimationName;
 export type TileType = 'ground';
 export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3' | 'break' | 'jump' | 'flat' | 'hiding';
-export type SpriteName = TileName | CharacterName;
+export type SpriteName = TileName | CharacterName | (string & {});
 export type AnimationName = 'chance-1' | 'chance-2' | 'chance-3' | 'run' | 'walk' | 'wake';
 export type PatternName = 'pipe-2h';
 

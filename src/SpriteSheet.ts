@@ -7,7 +7,7 @@ export class SpriteSheet {
   private tiles: Map<SpriteName, HTMLCanvasElement[]>;
   animations: Map<SpriteName, (distance: number) => AnimationName>;
 
-  constructor(image: HTMLImageElement, width: number, height: number) {
+  constructor(image: HTMLImageElement, width = 0, height = 0) {
     this.image = image;
     this.width = width;
     this.height = height;

@@ -20,6 +20,8 @@ export class Stomper extends Trait {
     this.queueBounce = true;
   }
 
+  onStomp() {}
+
   collides(us: Entity, them: Entity) {
     if (!(them.traitProperties.killable as Killable) || (them.traitProperties.killable as Killable).dead) {
       return;
@@ -27,6 +29,7 @@ export class Stomper extends Trait {
 
     if (us.vel.y > them.vel.y) {
       this.bounce(us, them);
+      this.onStomp();
     }
   }
 }

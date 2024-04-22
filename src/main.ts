@@ -4,10 +4,12 @@ import { Timer } from './Timer';
 import { loadEntities } from './entities';
 import { Mario } from './entities/Mario';
 import { setupKeyboard } from './input';
-import { createCollisionLayer } from './layers';
+import { createCollisionLayer } from './layers/collision';
+import { loadFont } from './layers/font';
 import { createLevelLoader } from './loaders/level';
-import { PlayerController } from './traits/PlayerController';
 import './style.css';
+import { PlayerController } from './traits/PlayerController';
+import { createDashboardLayer } from './layers/dashboard';
 
 function createPlayerEnv(playerEntity: Entity) {
   const playerEnv = new Entity();
@@ -26,7 +28,7 @@ if (!context) {
   throw 'context not found';
 }
 
-const entityFactory = await loadEntities();
+const [entityFactory, font] = await Promise.all([loadEntities(), loadFont()]);
 const level = await createLevelLoader(entityFactory)('1-1');
 
 const camera = new Camera();
@@ -37,6 +39,7 @@ const playerEnv = createPlayerEnv(mario);
 level.entities.add(playerEnv);
 
 level.comp.layers.push(createCollisionLayer(level)!);
+level.comp.layers.push(createDashboardLayer(font, playerEnv));
 
 const input = setupKeyboard(mario);
 
