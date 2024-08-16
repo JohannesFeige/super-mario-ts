@@ -1,5 +1,4 @@
 // todo: clean up literal types
-import { AudioBoard } from './AudioBoard';
 export type TileName = 'ground' | 'sky' | 'chocolate' | 'bricks' | 'chance' | AnimationName;
 export type TileType = 'ground';
 export type CharacterName = 'idle' | 'run-1' | 'run-2' | 'run-3' | 'break' | 'jump' | 'flat' | 'hiding';

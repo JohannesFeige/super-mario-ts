@@ -7,7 +7,7 @@ import { Physics } from '../traits/Physics';
 import { Solid } from '../traits/Solid';
 import { Trait } from '../traits/Trait';
 
-export async function loadGoomba(audioContext: AudioContext) {
+export async function loadGoomba(_audioContext: AudioContext) {
   const sprite = await loadSpriteSheet('goomba');
   return createGoombaFactory(sprite);
 }

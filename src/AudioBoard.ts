@@ -1,7 +1,7 @@
 export class AudioBoard {
   private buffers: Map<string, AudioBuffer>;
 
-  constructor(context: AudioContext) {
+  constructor() {
     this.buffers = new Map();
   }
 

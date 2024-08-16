@@ -8,7 +8,7 @@ import { Solid } from '../traits/Solid';
 import { Trait } from '../traits/Trait';
 import { GameContext } from '../types';
 
-export async function loadKoopa(audioContext: AudioContext) {
+export async function loadKoopa(_audioContext: AudioContext) {
   const sprite = await loadSpriteSheet('koopa');
   return createKoopaFactory(sprite);
 }

@@ -4,7 +4,7 @@ import { AudioSheetSpec } from '../types';
 
 export async function loadAudioBoard(name: string, audioContext: AudioContext) {
   const loadAudio = createAudioLoader(audioContext);
-  const audioBoard = new AudioBoard(audioContext);
+  const audioBoard = new AudioBoard();
   const audioSheet = await loadJSON<AudioSheetSpec>(`/sounds/${name}.json`);
 
   const jobs = Object.keys(audioSheet.fx).map(async (name) => {
