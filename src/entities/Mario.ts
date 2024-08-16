@@ -1,3 +1,4 @@
+import { AudioBoard } from '../AudioBoard';
 import { Entity } from '../Entity';
 import { Go } from '../traits/Go';
 import { Jump } from '../traits/Jump';
@@ -14,9 +15,10 @@ export class Mario extends Entity {
   solid: Solid;
   physics: Physics;
 
-  constructor() {
+  constructor(audio: AudioBoard) {
     super();
 
+    this.audio = audio;
     this.physics = this.addTrait(new Physics());
     this.solid = this.addTrait(new Solid());
     this.jump = this.addTrait(new Jump());

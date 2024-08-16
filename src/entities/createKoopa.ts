@@ -1,5 +1,4 @@
 import { Entity } from '../Entity';
-import { Level } from '../Level';
 import { SpriteSheet } from '../SpriteSheet';
 import { loadSpriteSheet } from '../loaders';
 import { Killable } from '../traits/Killable';
@@ -7,8 +6,9 @@ import { PendulumMove } from '../traits/PendulumMove';
 import { Physics } from '../traits/Physics';
 import { Solid } from '../traits/Solid';
 import { Trait } from '../traits/Trait';
+import { GameContext } from '../types';
 
-export async function loadKoopa() {
+export async function loadKoopa(audioContext: AudioContext) {
   const sprite = await loadSpriteSheet('koopa');
   return createKoopaFactory(sprite);
 }
@@ -31,7 +31,7 @@ class Behavior extends Trait {
     this.walkSpeed = null;
   }
 
-  collides(us: Entity, them: Entity) {
+  override collides(us: Entity, them: Entity) {
     if ((us.traitProperties.killable as Killable).dead) {
       return;
     }
@@ -96,7 +96,7 @@ class Behavior extends Trait {
     (us.traitProperties.pendulumMove as PendulumMove).speed = this.panicSpeed * Math.sign(them.vel.x);
   }
 
-  update(us: Entity, deltaTime: number, _level: Level): void {
+  override update(us: Entity, { deltaTime }: GameContext): void {
     if (this.state === 'hiding') {
       this.hideTime += deltaTime;
 

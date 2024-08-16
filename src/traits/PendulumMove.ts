@@ -12,13 +12,13 @@ export class PendulumMove extends Trait {
     this.enabled = true;
   }
 
-  update(entity: Entity, _deltaTime: number): void {
+  override update(entity: Entity): void {
     if (this.enabled) {
       entity.vel.x = this.speed;
     }
   }
 
-  obstruct(_entity: Entity, side: Side): void {
+  override obstruct(_entity: Entity, side: Side): void {
     if (side === 'left' || side === 'right') {
       this.speed = -this.speed;
     }

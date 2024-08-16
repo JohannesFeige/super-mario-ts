@@ -3,7 +3,7 @@ import { Entity } from './Entity';
 import { EntityCollider } from './EntityCollider';
 import { TileCollider } from './TileCollider';
 import { Matrix } from './math';
-import { TileType } from './types';
+import { GameContext, TileType } from './types';
 
 export class Level {
   gravity: number;
@@ -26,9 +26,9 @@ export class Level {
     this.tileCollider = new TileCollider(matrix);
   }
 
-  update(deltaTime: number) {
+  update(gameContext: GameContext) {
     this.entities.forEach((entity) => {
-      entity.update(deltaTime, this);
+      entity.update(gameContext, this);
     });
 
     this.entities.forEach((entity) => {
@@ -39,6 +39,6 @@ export class Level {
       entity.finalize();
     });
 
-    this.totalTime += deltaTime;
+    this.totalTime += gameContext.deltaTime;
   }
 }

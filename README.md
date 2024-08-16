@@ -12,7 +12,9 @@ Based on [Meth Meth Method](https://www.youtube.com/MethMethMethod) YouTube seri
 
 - Left: `"A"`
 - Right: `"D"`
+- Run: `"O"`
 - Jump: `"P"`
 
 ## Demo
+
 [GitHub Pages](https://johannesfeige.github.io/super-mario-ts/)

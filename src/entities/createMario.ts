@@ -1,14 +1,16 @@
+import { AudioBoard } from '../AudioBoard';
 import { SpriteSheet } from '../SpriteSheet';
 import { loadSpriteSheet } from '../loaders';
+import { loadAudioBoard } from '../loaders/audio';
 import { AnimationName, CharacterName } from '../types';
 import { Mario } from './Mario';
 
-export async function loadMario() {
-  const sprite = await loadSpriteSheet('mario');
-  return createMarioFactory(sprite);
+export async function loadMario(audioContext: AudioContext) {
+  const [sprite, audio] = await Promise.all([loadSpriteSheet('mario'), loadAudioBoard('mario', audioContext)]);
+  return createMarioFactory(sprite, audio);
 }
 
-function createMarioFactory(sprite: SpriteSheet) {
+function createMarioFactory(sprite: SpriteSheet, audio: AudioBoard) {
   const runAnimation = sprite.animations.get('run')!;
   function routeFrame(mario: Mario): CharacterName | AnimationName {
     if (mario.jump.falling) {
@@ -30,7 +32,7 @@ function createMarioFactory(sprite: SpriteSheet) {
   }
 
   return () => {
-    const mario = new Mario();
+    const mario = new Mario(audio);
     mario.size.set(14, 16);
 
     mario.draw = drawMario;

@@ -1,4 +1,5 @@
 import { Entity } from '../Entity';
+import { GameContext } from '../types';
 import { Jump } from './Jump';
 import { Trait } from './Trait';
 
@@ -32,7 +33,7 @@ export class Go extends Trait {
     this.deceleration = 300;
   }
 
-  update(entity: Entity, deltaTime: number) {
+  override update(entity: Entity, { deltaTime }: GameContext) {
     const absX = Math.abs(entity.vel.x);
 
     if (this.dir !== 0) {

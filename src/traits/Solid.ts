@@ -9,7 +9,7 @@ export class Solid extends Trait {
     this.obstructs = true;
   }
 
-  obstruct(entity: Entity, side: Side, match: Match): void {
+  override obstruct(entity: Entity, side: Side, match: Match): void {
     if (!this.obstructs) {
       return;
     }

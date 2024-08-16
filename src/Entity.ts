@@ -1,8 +1,9 @@
+import { AudioBoard } from './AudioBoard';
 import { BoundingBox } from './BoundingBox';
 import { Level } from './Level';
 import { Vec2 } from './math';
 import { Trait } from './traits/Trait';
-import { Match } from './types';
+import { GameContext, Match } from './types';
 
 export type Side = 'top' | 'bottom' | 'left' | 'right';
 
@@ -14,6 +15,7 @@ export class Entity {
   lifetime: number;
   traitProperties: Record<string, Trait>;
   bounds: BoundingBox;
+  audio?: AudioBoard;
 
   private traits: Trait[];
 
@@ -54,10 +56,13 @@ export class Entity {
     this.traits.forEach((trait) => trait.finalize());
   }
 
-  update(deltaTime: number, level: Level) {
+  update(gameContext: GameContext, level: Level) {
     this.traits.forEach((trait) => {
-      trait.update(this, deltaTime, level);
+      trait.update(this, gameContext, level);
+      if (this.audio) {
+        trait.playSounds(this.audio, gameContext.audioContext);
+      }
     });
-    this.lifetime += deltaTime;
+    this.lifetime += gameContext.deltaTime;
   }
 }

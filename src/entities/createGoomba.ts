@@ -7,7 +7,7 @@ import { Physics } from '../traits/Physics';
 import { Solid } from '../traits/Solid';
 import { Trait } from '../traits/Trait';
 
-export async function loadGoomba() {
+export async function loadGoomba(audioContext: AudioContext) {
   const sprite = await loadSpriteSheet('goomba');
   return createGoombaFactory(sprite);
 }
@@ -17,7 +17,7 @@ class Behavior extends Trait {
     super('behavior');
   }
 
-  collides(us: Entity, them: Entity) {
+  override collides(us: Entity, them: Entity) {
     if ((us.traitProperties.killable as Killable).dead) {
       return;
     }

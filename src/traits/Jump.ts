@@ -1,4 +1,5 @@
 import { Entity, Side } from '../Entity';
+import { GameContext } from '../types';
 import { Trait } from './Trait';
 
 export class Jump extends Trait {
@@ -37,7 +38,7 @@ export class Jump extends Trait {
     this.requestTime = 0;
   }
 
-  obstruct(_entity: Entity, side: Side): void {
+  override obstruct(_entity: Entity, side: Side): void {
     if (side === 'bottom') {
       this.ready = 1;
     } else if (side === 'top') {
@@ -45,9 +46,10 @@ export class Jump extends Trait {
     }
   }
 
-  update(entity: Entity, deltaTime: number) {
+  override update(entity: Entity, { deltaTime }: GameContext) {
     if (this.requestTime > 0) {
       if (this.ready > 0) {
+        this.sounds.add('jump');
         this.engageTime = this.duration;
         this.requestTime = 0;
       }

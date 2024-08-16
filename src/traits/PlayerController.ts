@@ -1,6 +1,7 @@
 import { Entity } from '../Entity';
 import { Level } from '../Level';
 import { Vec2 } from '../math';
+import { GameContext } from '../types';
 import { Killable } from './Killable';
 import { Stomper } from './Stomper';
 import { Trait } from './Trait';
@@ -28,7 +29,7 @@ export class PlayerController extends Trait {
     };
   }
 
-  update(_entity: Entity, deltaTime: number, level: Level): void {
+  override update(_entity: Entity, { deltaTime }: GameContext, level: Level): void {
     if (this.player && !level.entities.has(this.player)) {
       (this.player.traitProperties.killable as Killable)?.revive();
       this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
