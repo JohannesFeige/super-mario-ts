@@ -24,9 +24,9 @@ export class PlayerController extends Trait {
   setPlayer(entity: Entity) {
     this.player = entity;
 
-    (this.player.traitProperties['stomper'] as Stomper).onStomp = () => {
+    (this.player.traitProperties.stomper as Stomper).events.listen('stomp', () => {
       this.score += 100;
-    };
+    });
   }
 
   override update(_entity: Entity, { deltaTime }: GameContext, level: Level): void {

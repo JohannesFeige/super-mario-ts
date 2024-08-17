@@ -1,14 +1,18 @@
 import { AudioBoard } from '../AudioBoard';
 import { Entity, Side } from '../Entity';
+import { EventEmitter } from '../EventEmitter';
 import { Level } from '../Level';
 import { GameContext, Match } from '../types';
 
 export abstract class Trait {
   NAME: string;
+  events: EventEmitter;
   sounds: Set<string>;
   tasks: (() => void)[];
   constructor(name: string) {
     this.NAME = name;
+    
+    this.events =new EventEmitter();
     this.sounds = new Set();
     this.tasks = [];
   }
